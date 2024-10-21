@@ -1,9 +1,9 @@
-import cluster from "cluster";
-import http, { IncomingMessage, ServerResponse } from "http";
-import os from "os";
-import * as console from "node:console";
-import Router from "./routes";
-import { t } from "./utils/loc";
+import cluster from 'cluster';
+import http, { IncomingMessage, ServerResponse } from 'http';
+import os from 'os';
+import * as console from 'node:console';
+import Router from './routes';
+import { t } from './utils/loc';
 
 interface WorkerInfo {
   pid: number;
@@ -17,12 +17,12 @@ function startCluster({ port }: { port: number }) {
 
   if (cluster.isPrimary) {
     console.log(
-      t("server-started", {
+      t('server-started', {
         port: String(port),
         multiThread: String(true),
       })
     );
-    workerInfos.push({ pid: process.pid, port, role: "Master" });
+    workerInfos.push({ pid: process.pid, port, role: 'Master' });
 
     for (let i = 0; i < numCPUs - 1; i = +1) {
       cluster.fork();
@@ -34,7 +34,7 @@ function startCluster({ port }: { port: number }) {
       (req: IncomingMessage, res: ServerResponse) => {
         const workerPort = port + (currentWorker % (numCPUs - 1)) + 1;
         const options = {
-          hostname: "localhost",
+          hostname: 'localhost',
           port: workerPort,
           path: req.url,
           method: req.method,
@@ -47,27 +47,27 @@ function startCluster({ port }: { port: number }) {
         });
 
         req.pipe(proxy, { end: true });
-        currentWorker++;
+        currentWorker += 1;
       }
     );
 
     loadBalancer.listen(port, () => {
-      workerInfos.push({ pid: process.pid, port, role: "Load Balancer" });
+      workerInfos.push({ pid: process.pid, port, role: 'Load Balancer' });
       console.table(workerInfos);
     });
 
-    cluster.on("exit", () => {
+    cluster.on('exit', () => {
       cluster.fork();
     });
 
     for (const id in cluster.workers) {
       if (cluster.workers[id]) {
-        cluster.workers[id]!.on("message", (message) => {
-          if (message.type === "workerInfo") {
+        cluster.workers[id]!.on('message', (message) => {
+          if (message.type === 'workerInfo') {
             workerInfos.push({
               pid: message.pid,
               port: message.port,
-              role: "Worker",
+              role: 'Worker',
             });
             console.table(workerInfos);
           }
@@ -76,21 +76,17 @@ function startCluster({ port }: { port: number }) {
     }
   } else {
     const workerPort = port + cluster.worker!.id;
-    const server = http.createServer(
-      (req: IncomingMessage, res: ServerResponse) => {
-        console.log(
-          `Worker ${workerPort} port received request for ${req.url}`
-        );
-        Router(req, res);
-      }
-    );
+    const server = http.createServer((req: IncomingMessage, res: ServerResponse) => {
+      console.log(`Worker ${workerPort} port received request for ${req.url}`);
+      Router(req, res);
+    });
 
     server.listen(workerPort, () => {
       process.send!({
-        type: "workerInfo",
+        type: 'workerInfo',
         pid: process.pid,
         port: workerPort,
-        role: "Worker",
+        role: 'Worker',
       });
     });
   }
