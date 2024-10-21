@@ -3,7 +3,7 @@ import ServerNotFoundError from '../utils/errors/ServerNotFoundError';
 import { t } from '../utils/loc';
 import ServerItemExistError from '../utils/errors/ServerItemExistError';
 
-const users: User[] = [];
+export const users: User[] = [];
 
 const createUser = (userData: User) => {
   const index = users.findIndex((user) => user.id === userData.id);
@@ -54,4 +54,8 @@ const getUser = (id: string) => {
   return user;
 };
 
-export { createUser, removeUser, updateUser, getAllUsers, getUser };
+const clearUsers = () => {
+  users.splice(0, users.length);
+};
+
+export { createUser, removeUser, updateUser, getAllUsers, getUser, clearUsers };
