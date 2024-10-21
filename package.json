@@ -13,13 +13,16 @@
     "prettier": "prettier --write **/*.{ts,js,json,md}",
     "eslint": "eslint src/**/*.ts --fix"
   },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "uuid": "^10.0.0",
+    "cross-env": "^7.0.3"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.2",
     "@types/lodash": "^4.14.195",
     "@types/node": "^20.3.1",
     "@types/uuid": "^10.0.0",
-    "cross-env": "^7.0.3",
-    "dotenv": "^16.4.5",
     "eslint": "^8.43.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
@@ -31,8 +34,7 @@
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.6.3",
-    "uuid": "^10.0.0"
+    "typescript": "^5.6.3"
   },
   "repository": {
     "type": "git",

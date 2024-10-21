@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-
 import User from "../models/User";
 import ServerNotFoundError from "../utils/errors/ServerNotFoundError";
 import { t } from "../utils/loc";
@@ -7,16 +5,16 @@ import ServerItemExistError from "../utils/errors/ServerItemExistError";
 
 const users: User[] = [];
 
-const createUser = (userData: Omit<User, "id">) => {
-  const id = uuidv4();
-  const user = { id, ...userData };
-  const index = users.findIndex((user) => user.id === id);
+const createUser = (userData: User) => {
+  const index = users.findIndex((user) => user.id === userData.id);
 
   if (index !== -1)
-    throw new ServerItemExistError(t("server-user-exist-error", { id }));
+    throw new ServerItemExistError(
+      t("server-user-exist-error", { id: userData.id })
+    );
 
-  users.push(user);
-  return user;
+  users.push(userData);
+  return userData;
 };
 
 const removeUser = (id: string) => {
