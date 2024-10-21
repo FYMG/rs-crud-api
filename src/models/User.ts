@@ -58,8 +58,8 @@ export const validateUser = ({
   user,
   partial = true,
 }: {
-  user: User;
-  partial: boolean;
+  user: Partial<User>;
+  partial?: boolean;
 }) => {
   const { id, username, age, hobbies } = user;
 
