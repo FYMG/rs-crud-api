@@ -1,11 +1,11 @@
 export enum ContentType {
-  json = "application/json",
-  html = "text/html",
+  json = 'application/json',
+  html = 'text/html',
 }
 
 function getHead({ type = ContentType.json }: { type?: ContentType } = {}) {
   return {
-    "Content-Type": type,
+    'Content-Type': type,
   };
 }
 

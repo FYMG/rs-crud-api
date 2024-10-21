@@ -1,15 +1,15 @@
-import { IncomingMessage, ServerResponse } from "http";
-import { v4 as uuidv4 } from "uuid";
-import * as usersData from "../data/user";
-import getHead from "../utils/helpers/getHead";
-import User, { validateUser } from "../models/User";
-import ServerParsingError from "../utils/errors/ServerParsingError";
-import ServerNotFoundError from "../utils/errors/ServerNotFoundError";
-import { t } from "../utils/loc";
-import ServerItemExistError from "../utils/errors/ServerItemExistError";
-import ServerDataNeedError from "../utils/errors/ServerDataNeedError";
-import parseRequest from "../utils/helpers/parseRequest";
-import ServerInvalidJSONFormatError from "../utils/errors/ServerInvalidJSONFormatError";
+import { IncomingMessage, ServerResponse } from 'http';
+import { v4 as uuidv4 } from 'uuid';
+import * as usersData from '../data/user';
+import getHead from '../utils/helpers/getHead';
+import User, { validateUser } from '../models/User';
+import ServerParsingError from '../utils/errors/ServerParsingError';
+import ServerNotFoundError from '../utils/errors/ServerNotFoundError';
+import { t } from '../utils/loc';
+import ServerItemExistError from '../utils/errors/ServerItemExistError';
+import ServerDataNeedError from '../utils/errors/ServerDataNeedError';
+import parseRequest from '../utils/helpers/parseRequest';
+import ServerInvalidJSONFormatError from '../utils/errors/ServerInvalidJSONFormatError';
 
 export default class UserController {
   getAllUsers(_: IncomingMessage, res: ServerResponse): void {
@@ -34,16 +34,16 @@ export default class UserController {
   }
 
   createUser(req: IncomingMessage, res: ServerResponse): void {
-    let body = "";
+    let body = '';
 
-    req.on("data", (chunk) => {
+    req.on('data', (chunk) => {
       body += chunk;
     });
 
-    req.on("end", () => {
+    req.on('end', () => {
       try {
         const userData = {
-          ...parseRequest<Partial<Omit<User, "id">>>(body),
+          ...parseRequest<Partial<Omit<User, 'id'>>>(body),
           id: uuidv4(),
         };
         if (!userData.hobbies) {
@@ -63,22 +63,22 @@ export default class UserController {
   }
 
   updateUser(req: IncomingMessage, res: ServerResponse, id: string): void {
-    let body = "";
+    let body = '';
 
-    req.on("data", (chunk) => {
+    req.on('data', (chunk) => {
       body += chunk;
     });
 
-    req.on("end", () => {
+    req.on('end', () => {
       try {
-        const userData = parseRequest<Partial<Omit<User, "id">>>(body);
+        const userData = parseRequest<Partial<Omit<User, 'id'>>>(body);
         validateUser({
           user: userData,
           partial: true,
         });
         const updatedUser = usersData.updateUser({
           id,
-          userData: userData as Partial<Omit<User, "id">>,
+          userData: userData as Partial<Omit<User, 'id'>>,
         });
         res.writeHead(200, getHead());
         res.end(JSON.stringify(updatedUser));
@@ -155,10 +155,9 @@ export default class UserController {
       res.writeHead(500, getHead());
       res.end(
         JSON.stringify({
-          message: t("server-unknown-error"),
+          message: t('server-unknown-error'),
         })
       );
     }
-    return true;
   }
 }

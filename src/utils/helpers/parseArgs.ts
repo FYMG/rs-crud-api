@@ -5,9 +5,9 @@ const parseArgs = () => {
   let currentKey: string | null = null;
 
   args.forEach((arg) => {
-    if (arg.startsWith("--")) {
+    if (arg.startsWith('--')) {
       currentKey = arg.slice(2);
-      result[currentKey] = "true";
+      result[currentKey] = 'true';
     } else if (currentKey) {
       result[currentKey] = arg;
       currentKey = null;

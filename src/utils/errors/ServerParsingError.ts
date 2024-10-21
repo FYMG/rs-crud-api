@@ -1,14 +1,14 @@
-import ServerError from "./ServerError";
-import { t } from "../loc";
+import ServerError from './ServerError';
+import { t } from '../loc';
 
 export enum ExpectedType {
-  string = "string",
-  number = "number",
-  boolean = "boolean",
-  array = "array",
-  object = "object",
-  date = "date",
-  uuid = "uuid",
+  string = 'string',
+  number = 'number',
+  boolean = 'boolean',
+  array = 'array',
+  object = 'object',
+  date = 'date',
+  uuid = 'uuid',
 }
 
 export interface ServerParsingErrorArgs {
@@ -22,9 +22,9 @@ export default class ServerParsingError extends ServerError {
   expectedType: ExpectedType;
 
   constructor({ field, expectedType }: ServerParsingErrorArgs) {
-    super(t("server-parse-error", { field, expectedType }));
+    super(t('server-parse-error', { field, expectedType }));
     this.field = field;
     this.expectedType = expectedType;
-    this.name = "ServerParsingError";
+    this.name = 'ServerParsingError';
   }
 }

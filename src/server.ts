@@ -1,6 +1,6 @@
-import * as http from "node:http";
-import { t } from "./utils/loc";
-import Router from "./routes";
+import * as http from 'node:http';
+import { t } from './utils/loc';
+import Router from './routes';
 
 export interface StartServerOptions {
   multiThread: boolean;
@@ -9,7 +9,7 @@ export interface StartServerOptions {
 
 function startServer({ multiThread, port }: StartServerOptions) {
   console.log(
-    t("server-started", {
+    t('server-started', {
       port: String(port),
       multiThread: String(multiThread),
     })

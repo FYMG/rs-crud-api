@@ -1,5 +1,5 @@
 const endpoints = {
-  users: "/api/users/",
+  users: '/api/users/',
 };
 
 export { endpoints };

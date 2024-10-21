@@ -1,6 +1,6 @@
-import * as dotenv from "dotenv";
-import startServer from "./server";
-import parseArgs from "./utils/helpers/parseArgs";
+import * as dotenv from 'dotenv';
+import startServer from './server';
+import parseArgs from './utils/helpers/parseArgs';
 
 const args = parseArgs();
 

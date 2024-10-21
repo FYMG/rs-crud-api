@@ -1,7 +1,5 @@
-import { validate as uuidValidate } from "uuid";
-import ServerParsingError, {
-  ExpectedType,
-} from "../utils/errors/ServerParsingError";
+import { validate as uuidValidate } from 'uuid';
+import ServerParsingError, { ExpectedType } from '../utils/errors/ServerParsingError';
 
 export default interface User {
   id: string;
@@ -11,31 +9,31 @@ export default interface User {
 }
 
 export const validateId = (id: unknown) => {
-  if (typeof id !== "string")
+  if (typeof id !== 'string')
     throw new ServerParsingError({
-      field: "id",
+      field: 'id',
       expectedType: ExpectedType.uuid,
     });
 
   if (!uuidValidate(id))
     throw new ServerParsingError({
-      field: "id",
+      field: 'id',
       expectedType: ExpectedType.uuid,
     });
 };
 
 export const validateUsername = (username: unknown) => {
-  if (typeof username !== "string")
+  if (typeof username !== 'string')
     throw new ServerParsingError({
-      field: "username",
+      field: 'username',
       expectedType: ExpectedType.string,
     });
 };
 
 export const validateAge = (age: unknown) => {
-  if (typeof age !== "number")
+  if (typeof age !== 'number')
     throw new ServerParsingError({
-      field: "age",
+      field: 'age',
       expectedType: ExpectedType.number,
     });
 };
@@ -43,11 +41,11 @@ export const validateAge = (age: unknown) => {
 export const validateHobbies = (hobbies: unknown) => {
   if (!Array.isArray(hobbies))
     throw new ServerParsingError({
-      field: "hobbies",
+      field: 'hobbies',
       expectedType: ExpectedType.array,
     });
 
-  if (hobbies.some((hobby) => typeof hobby !== "string"))
+  if (hobbies.some((hobby) => typeof hobby !== 'string'))
     throw new ServerParsingError({
       field: `hobbies[index]`,
       expectedType: ExpectedType.string,
@@ -63,8 +61,16 @@ export const validateUser = ({
 }) => {
   const { id, username, age, hobbies } = user;
 
-  (id || !partial) && validateId(id);
-  (username || !partial) && validateUsername(username);
-  (age || !partial) && validateAge(age);
-  (hobbies || !partial) && validateHobbies(hobbies);
+  if (id || !partial) {
+    validateId(id);
+  }
+  if (username || !partial) {
+    validateUsername(username);
+  }
+  if (age || !partial) {
+    validateAge(age);
+  }
+  if (hobbies || !partial) {
+    validateHobbies(hobbies);
+  }
 };
