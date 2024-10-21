@@ -1,6 +1,7 @@
-import * as http from 'node:http';
-import { t } from './utils/loc';
-import Router from './routes';
+import * as http from "node:http";
+import Router from "./routes";
+import { t } from "./utils/loc";
+import startCluster from "./cluster";
 
 export interface StartServerOptions {
   multiThread: boolean;
@@ -8,20 +9,22 @@ export interface StartServerOptions {
 }
 
 function startServer({ multiThread, port }: StartServerOptions) {
-  console.log(
-    t('server-started', {
-      port: String(port),
-      multiThread: String(multiThread),
-    })
-  );
-
   if (multiThread) {
+    startCluster({
+      port,
+    });
   } else {
     const server = http.createServer((req, res) => {
       Router(req, res);
     });
 
     server.listen(port);
+    console.log(
+      t("server-started", {
+        port: String(port),
+        multiThread: String(multiThread),
+      })
+    );
   }
 }
 
