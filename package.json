@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "start:prod": "tsc && node dist/main.js",
+    "start:multi": "nodemon --watch 'src/**/*.ts' src/main.ts -- --arg1 value1 --arg2 value2 --multiThread",
     "start:dev": "nodemon --watch 'src/**/*.ts' src/main.ts -x ts-node-dev",
     "build": "tsc",
     "test:verbose": "jest",
